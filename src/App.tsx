@@ -269,6 +269,20 @@ export default function App() {
         return;
       }
 
+      // Espera o navegador terminar o layout/renderização
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            resolve();
+          });
+        });
+      });
+
+      // Espera fontes
+      if (document.fonts?.ready) {
+        await document.fonts.ready;
+      }
+
       const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
         import("html2canvas-pro"),
         import("jspdf"),
@@ -277,17 +291,30 @@ export default function App() {
       const pdf = new jsPDF("p", "mm", "a4");
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
-
       const pdfHeight = pdf.internal.pageSize.getHeight();
 
       for (let i = 0; i < elementos.length; i++) {
         const elemento = elementos[i];
 
+        // Garante que o elemento esteja visível e renderizado
+        const rect = elemento.getBoundingClientRect();
+
+        if (rect.width === 0 || rect.height === 0) {
+          console.warn(`Página ${i + 1} possui dimensões inválidas.`);
+          continue;
+        }
+
         const canvas = await html2canvas(elemento, {
           scale: 2,
           useCORS: true,
+          allowTaint: false,
           backgroundColor: "#ffffff",
           logging: false,
+
+          // Evita capturar elementos que não deveriam ir para o PDF
+          ignoreElements: (element) => {
+            return element.hasAttribute("data-pdf-ignore");
+          },
         });
 
         const imgData = canvas.toDataURL("image/jpeg", 0.92);
@@ -296,8 +323,7 @@ export default function App() {
           pdf.addPage();
         }
         const imgWidth = pdfWidth;
-
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        const imgHeight = pdfHeight;
 
         pdf.addImage(
           imgData,
@@ -305,7 +331,9 @@ export default function App() {
           0,
           0,
           imgWidth,
-          Math.min(imgHeight, pdfHeight),
+          imgHeight,
+          undefined,
+          "FAST",
         );
       }
 
@@ -327,7 +355,6 @@ export default function App() {
 
       if (navigator.canShare && navigator.canShare(shareData)) {
         try {
-          // await navigator.share(shareData);
           pdf.save(nomeArquivo);
 
           setExportando(false);
@@ -340,6 +367,7 @@ export default function App() {
           }
         }
       }
+
       const url = URL.createObjectURL(blob);
 
       const link = document.createElement("a");
@@ -348,9 +376,7 @@ export default function App() {
       link.download = nomeArquivo;
 
       document.body.appendChild(link);
-
       link.click();
-
       document.body.removeChild(link);
 
       URL.revokeObjectURL(url);
@@ -358,7 +384,6 @@ export default function App() {
       setExportando(false);
     } catch (error) {
       console.error("Erro ao gerar PDF:", error);
-
       setExportando(false);
     }
   };

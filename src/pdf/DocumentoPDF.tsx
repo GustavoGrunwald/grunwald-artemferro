@@ -159,45 +159,51 @@ export default function DocumentoPDF({
 
       return novasPaginas;
     });
-  }, [itens, cliente, validade, descontoPorcentagem, setPaginas]);
+  }, [
+    itens,
+    cliente,
+    validade,
+    descontoPorcentagem,
+    observacao,
+    pagamento,
+    setPaginas,
+  ]);
 
   useLayoutEffect(() => {
-    if (paginas.length === 0) {
+    if (paginas.length === 0 || prontoRef.current) {
       return;
     }
 
-    if (prontoRef.current) {
-      return;
-    }
+    const frame1 = requestAnimationFrame(() => {
+      const frame2 = requestAnimationFrame(() => {
+        const todasRenderizadas = paginas.every(
+          (_, index) => pageRefs.current[index],
+        );
 
-    const frame = requestAnimationFrame(() => {
-      const todasRenderizadas = paginas.every(
-        (_, index) => pageRefs.current[index],
-      );
+        if (todasRenderizadas) {
+          prontoRef.current = true;
+          onReady?.();
+        }
+      });
 
-      if (todasRenderizadas) {
-        prontoRef.current = true;
-        onReady?.();
-      }
+      return () => cancelAnimationFrame(frame2);
     });
 
-    return () => {
-      cancelAnimationFrame(frame);
-    };
+    return () => cancelAnimationFrame(frame1);
   }, [paginas, onReady, pageRefs]);
 
   return (
-    <div className="min-h-screen bg-gray-200 p-4sm:p-8 flex  flex-col  items-center ">
+    <div className="min-h-screen bg-gray-200 p-4 sm:p-8 flex flex-col items-center">
       <div
-        aria-hidden
+        aria-hidden="true"
         style={{
-          position: "absolute",
+          position: "fixed",
           top: 0,
-          left: -99999,
+          left: "-10000px",
           width: PAGE_WIDTH,
           padding: PAGE_PADDING,
-          visibility: "hidden",
           pointerEvents: "none",
+          opacity: 0,
         }}
       >
         <div ref={headerRef}>
