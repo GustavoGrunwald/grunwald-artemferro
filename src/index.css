@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+.modo-exportacao input,
+.modo-exportacao textarea {
+  border: none !important;
+  background: transparent !important;
+  resize: none !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+textarea {
+  box-sizing: border-box;
+  word-break: break-word;
+}
+
+@theme {
+  --color-primary: #2c1c02;
+  --color-secondary: #efd7ba;
+  --color-secondary-dark: #d4b89c;
+}
