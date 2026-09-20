@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { toPng } from "html-to-image";
 import { LinhaItem } from "./components/TableComponents";
 import {
   BlocoTotais,
@@ -282,11 +283,7 @@ export default function App() {
       if (document.fonts?.ready) {
         await document.fonts.ready;
       }
-
-      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
-        import("html2canvas-pro"),
-        import("jspdf"),
-      ]);
+      const { default: jsPDF } = await import("jspdf");
 
       const pdf = new jsPDF("p", "mm", "a4");
 
@@ -304,20 +301,11 @@ export default function App() {
           continue;
         }
 
-        const canvas = await html2canvas(elemento, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: false,
+        const imgData = await toPng(elemento, {
+          pixelRatio: 2,
           backgroundColor: "#ffffff",
-          logging: false,
-
-          // Evita capturar elementos que não deveriam ir para o PDF
-          ignoreElements: (element) => {
-            return element.hasAttribute("data-pdf-ignore");
-          },
+          cacheBust: true,
         });
-
-        const imgData = canvas.toDataURL("image/jpeg", 0.92);
 
         if (i > 0) {
           pdf.addPage();

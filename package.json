@@ -16,7 +16,7 @@
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/vite": "^4.3.3",
     "fortawesome": "^0.0.1-security",
-    "html2canvas-pro": "^2.3.3",
+    "html-to-image": "^1.11.13",
     "jspdf": "^4.2.1",
     "lucide-react": "^1.31.0",
     "react": "^19.2.8",
