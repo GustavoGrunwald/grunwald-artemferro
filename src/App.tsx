@@ -343,16 +343,17 @@ export default function App() {
 
       if (navigator.canShare && navigator.canShare(shareData)) {
         try {
-          pdf.save(nomeArquivo);
+          await navigator.share(shareData);
 
           setExportando(false);
-
           return;
         } catch (erro) {
           if (erro instanceof Error && erro.name === "AbortError") {
             setExportando(false);
             return;
           }
+
+          throw erro;
         }
       }
 
