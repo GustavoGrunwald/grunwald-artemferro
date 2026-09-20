@@ -241,30 +241,37 @@ export function BlocoTotais({
   pagamentoSelecionado: boolean;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   useLayoutEffect(() => {
     const el = textareaRef.current;
+
     if (el) {
       el.style.height = "auto";
       el.style.height = `${el.scrollHeight}px`;
     }
   }, [observacao, pagamento]);
+
   return (
-    <div className="flex flex-col gap-6 w-full">
-      <div className="flex flex-col justify-end sm:flex-row gap-6">
+    <div className="flex flex-col gap-6 w-full min-w-0">
+      {/* Subtotal + Desconto */}
+      <div className="flex justify-end w-full">
         <div className="w-64 max-w-full space-y-2 text-sm shrink-0">
           <div className="flex justify-between text-gray-600 font-bold">
             <span>Subtotal:</span>
+
             <span>{formatarMoeda(subtotal)}</span>
           </div>
+
           <div className="flex justify-between items-center text-gray-600">
             <span>Desconto (%):</span>
+
             <input
               onKeyDown={focarProximoCampo}
               type="number"
               min="0"
               max="100"
               value={descontoPorcentagem}
-              disabled={observacao == "" ? true : false}
+              disabled={observacao == ""}
               onChange={(e) => setDescontoPorcentagem(Number(e.target.value))}
               className="w-16 text-right text-md bg-transparent focus:border-primary outline-none p-0.5"
             />
@@ -272,11 +279,14 @@ export function BlocoTotais({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="flex-1 min-w-0">
+      {/* Forma de Pagamento + Total */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-6 w-full min-w-0">
+        {/* Forma de Pagamento */}
+        <div className="min-w-0">
           <p className="text-xs font-bold text-primary uppercase mb-1">
             {pagamentoSelecionado && "Forma de Pagamento: "}
           </p>
+
           <textarea
             ref={textareaRef}
             rows={1}
@@ -287,26 +297,32 @@ export function BlocoTotais({
               e.target.style.height = `${e.target.scrollHeight}px`;
             }}
             disabled={!pagamentoSelecionado}
-            className="w-full text-gray-800 leading-relaxed text-sm block focus:border-primary outline-none p-0.5 resize-none wrap-break-word whitespace-pre-wrap overflow-hidden bg-transparent border-b border-transparent hover:border-gray-300"
+            className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block focus:border-primary outline-none p-0.5 resize-none wrap-break-word whitespace-pre-wrap overflow-hidden bg-transparent border-b border-transparent hover:border-gray-300"
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <div className="flex items-stretch overflow-hidden border border-primary">
-            <div className="bg-primary text-secondary font-bold uppercase text-sm px-6 py-2 flex items-center tracking-wide shrink-0">
+
+        {/* Total */}
+        <div className="min-w-0 flex flex-col gap-2">
+          <div className="flex items-stretch overflow-hidden border border-primary w-full min-w-0">
+            <div className="bg-primary text-secondary font-bold uppercase text-xs sm:text-sm px-3 sm:px-6 py-2 flex items-center tracking-wide shrink-0">
               Total
             </div>
-            <div className="flex-1  flex items-center justify-end px-6 py-2">
-              <span className="text-2xl font-bold text-primary">
+
+            <div className="flex-1 min-w-0 flex items-center justify-end px-3 sm:px-6 py-2">
+              <span className="text-lg sm:text-2xl font-bold text-primary whitespace-nowrap">
                 {formatarMoeda(totalGeral)}
               </span>
             </div>
           </div>
         </div>
       </div>
-      <div className="w-full">
+
+      {/* Observações */}
+      <div className="w-full min-w-0">
         <p className="text-xs font-bold text-primary uppercase mb-1">
           {observacaoSelecionada && "Observações: "}
         </p>
+
         <textarea
           ref={textareaRef}
           rows={1}
@@ -317,7 +333,7 @@ export function BlocoTotais({
             e.target.style.height = `${e.target.scrollHeight}px`;
           }}
           disabled={!observacaoSelecionada}
-          className="w-full bg-transparent border-transparent overflow-hidden text-gray-800 leading-relaxed text-sm block outline-none p-0.5 resize-none wrap-break-word whitespace-pre-wrap hover:border-primary focus:border-primary"
+          className="w-full min-w-0 bg-transparent border-transparent overflow-hidden text-gray-800 leading-relaxed text-sm block outline-none p-0.5 resize-none wrap-break-word whitespace-pre-wrap hover:border-primary focus:border-primary"
         />
       </div>
     </div>

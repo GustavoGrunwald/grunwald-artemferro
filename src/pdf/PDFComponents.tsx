@@ -173,7 +173,7 @@ export function BlocoTotais({
   return (
     <div className="flex flex-col gap-6 w-full">
       {/* Subtotal + Desconto */}
-      <div className="flex flex-col justify-end sm:flex-row gap-6">
+      <div className="flex justify-end w-full">
         <div className="w-64 max-w-full space-y-2 text-sm shrink-0">
           <div className="flex justify-between text-gray-600 font-bold">
             <span>Subtotal:</span>
@@ -191,25 +191,27 @@ export function BlocoTotais({
       </div>
 
       {/* Forma de Pagamento + Total */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="flex-1 min-w-0">
+      <div className="grid grid-cols-2 gap-3 sm:gap-6 w-full">
+        {/* Forma de Pagamento */}
+        <div className="min-w-0">
           <p className="text-xs font-bold text-primary uppercase mb-1">
             Forma de Pagamento:
           </p>
 
-          <div className="w-full text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
+          <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
             {pagamento}
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <div className="flex items-stretch overflow-hidden border border-primary">
-            <div className="bg-primary text-secondary font-bold uppercase text-sm px-6 py-2 flex items-center tracking-wide shrink-0">
+        {/* Total */}
+        <div className="min-w-0 flex flex-col gap-2">
+          <div className="flex items-stretch overflow-hidden border border-primary w-full min-w-0">
+            <div className="bg-primary text-secondary font-bold uppercase text-xs sm:text-sm px-3 sm:px-6 py-2 flex items-center tracking-wide shrink-0">
               Total
             </div>
 
-            <div className="flex-1 flex items-center justify-end px-6 py-2">
-              <span className="text-2xl font-bold text-primary">
+            <div className="flex-1 min-w-0 flex items-center justify-end px-3 sm:px-6 py-2">
+              <span className="text-lg sm:text-2xl font-bold text-primary whitespace-nowrap">
                 {formatarMoeda(totalGeral)}
               </span>
             </div>
@@ -218,12 +220,12 @@ export function BlocoTotais({
       </div>
 
       {/* Observações */}
-      <div className="w-full">
+      <div className="w-full min-w-0">
         <p className="text-xs font-bold text-primary uppercase mb-1">
           Observações:
         </p>
 
-        <div className="w-full bg-transparent text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
+        <div className="w-full min-w-0 bg-transparent text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
           {observacao}
         </div>
       </div>
