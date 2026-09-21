@@ -158,8 +158,6 @@ export const LinhaItem = forwardRef<
 });
 
 export function BlocoTotais({
-  subtotal,
-  descontoPorcentagem,
   totalGeral,
   observacao,
   pagamento,
@@ -172,13 +170,17 @@ export function BlocoTotais({
 }) {
   return (
     <div className="flex flex-col gap-4 w-full min-w-0">
-      {/* Total */}
+      {/* =====================================================
+          TOTAL
+      ===================================================== */}
       <div className="flex justify-end w-full">
         <div className="flex items-stretch overflow-hidden border border-primary">
+          {/* TOTAL */}
           <div className="bg-primary text-secondary font-bold uppercase text-xs sm:text-sm px-4 sm:px-6 py-2 flex items-center tracking-wide shrink-0">
             Total
           </div>
 
+          {/* VALOR */}
           <div className="flex items-center justify-end px-4 sm:px-6 py-2 min-w-37.5">
             <span className="text-lg sm:text-2xl font-bold text-primary whitespace-nowrap">
               {formatarMoeda(totalGeral)}
@@ -187,47 +189,41 @@ export function BlocoTotais({
         </div>
       </div>
 
-      {/* Observações */}
+      {/* =====================================================
+          OBSERVAÇÃO
+      ===================================================== */}
       <div className="w-full min-w-0">
-        <p className="text-sm font-bold text-primary uppercase mb-1 flex items-center gap-1">
-          <span className="shrink-0 w-8 h-8 rounded-lg bg-primary text-secondary flex items-center justify-center">
+        <div className="flex items-start gap-3 w-full">
+          {/* Ícone */}
+          <span className="shrink-0 w-9 h-9 rounded-full bg-primary text-secondary flex items-center justify-center">
             <FileText className="w-5 h-5" />
           </span>
-          Observações:
-        </p>
 
-        <div className="w-full min-w-0 bg-transparent text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
-          {observacao}
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-primary uppercase mb-1">
+              Observação:
+            </p>
+
+            <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
+              {observacao}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Forma de Pagamento */}
       <div className="w-full min-w-0">
-        <p className="text-sm font-bold text-primary uppercase mb-1 flex items-center gap-1">
-          <span className="shrink-0 w-8 h-8 rounded-lg bg-primary text-secondary flex items-center justify-center">
+        <div className="flex items-start gap-3 w-full">
+          <span className="shrink-0 w-9 h-9 rounded-full bg-primary text-secondary flex items-center justify-center">
             <CreditCard className="w-5 h-5" />
           </span>
-          Forma de Pagamento:
-        </p>
 
-        <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
-          {pagamento}
-        </div>
-      </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-primary uppercase mb-1">
+              Forma de Pagamento:
+            </p>
 
-      {/* Subtotal + Desconto */}
-      <div className="flex justify-end w-full">
-        <div className="w-64 max-w-full space-y-2 text-sm shrink-0">
-          <div className="flex justify-between text-gray-600 font-bold">
-            <span>Subtotal:</span>
-            <span>{formatarMoeda(subtotal)}</span>
-          </div>
-
-          <div className="flex justify-between items-center text-gray-600">
-            <span>Desconto (%):</span>
-
-            <div className="w-16 text-right text-md p-0.5">
-              {descontoPorcentagem}
+            <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
+              {pagamento}
             </div>
           </div>
         </div>
