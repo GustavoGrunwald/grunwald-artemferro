@@ -65,7 +65,7 @@ export function Cabecalho() {
               <span className="text-secondary-dark text-[10px]">◆</span>
               <span className="flex-1 h-px bg-secondary-dark" />
             </div>
-            <h1 className="text-3xl font-bold text-primary uppercase tracking-tighter">
+            <h1 className="text-2xl font-bold text-primary uppercase tracking-tighter">
               Grunwald Art Em Ferro
             </h1>
             <div className="flex items-center gap-2 w-full">
