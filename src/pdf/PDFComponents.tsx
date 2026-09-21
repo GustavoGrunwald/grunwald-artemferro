@@ -191,30 +191,30 @@ export function BlocoTotais({
       </div>
 
       {/* Forma de Pagamento + Total */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-6 w-full">
+      <div className="flex flex-col gap-4 w-full">
+        {/* Total */}
+        <div className="flex justify-end w-full">
+          <div className="flex items-stretch overflow-hidden border border-primary">
+            <div className="bg-primary text-secondary font-bold uppercase text-xs sm:text-sm px-4 sm:px-6 py-2 flex items-center tracking-wide shrink-0">
+              Total
+            </div>
+
+            <div className="flex items-center justify-end px-4 sm:px-6 py-2 min-w-37.5">
+              <span className="text-lg sm:text-2xl font-bold text-primary whitespace-nowrap">
+                {formatarMoeda(totalGeral)}
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Forma de Pagamento */}
-        <div className="min-w-0">
+        <div className="w-full min-w-0">
           <p className="text-xs font-bold text-primary uppercase mb-1">
             Forma de Pagamento:
           </p>
 
           <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
             {pagamento}
-          </div>
-        </div>
-
-        {/* Total */}
-        <div className="min-w-0 flex flex-col gap-2">
-          <div className="flex items-stretch overflow-hidden border border-primary w-full min-w-0">
-            <div className="bg-primary text-secondary font-bold uppercase text-xs sm:text-sm px-3 sm:px-6 py-2 flex items-center tracking-wide shrink-0">
-              Total
-            </div>
-
-            <div className="flex-1 min-w-0 flex items-center justify-end px-3 sm:px-6 py-2">
-              <span className="text-lg sm:text-2xl font-bold text-primary whitespace-nowrap">
-                {formatarMoeda(totalGeral)}
-              </span>
-            </div>
           </div>
         </div>
       </div>

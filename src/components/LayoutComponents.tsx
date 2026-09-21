@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, type ReactNode } from "react";
-import { Calendar, Clock, User } from "lucide-react";
+import { Calendar, Clock, CreditCard, FileText, User } from "lucide-react";
 import logoUrl from "../assets/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
@@ -53,14 +53,26 @@ export function Cabecalho() {
 
         <div className="w-px bg-gray-200 self-stretch" />
 
-        <div className="flex-1 flex flex-col justify-center min-w-0 gap-3">
-          <h1 className="text-3xl font-bold text-primary uppercase tracking-tighter">
-            Grunwald Arte Ferro
-          </h1>
-          <div className="flex items-center gap-2 w-44">
-            <span className="flex-1 h-px bg-secondary-dark" />
-            <span className="text-secondary-dark text-[10px]">◆</span>
-            <span className="flex-1 h-px bg-secondary-dark" />
+        <div className="">
+          <div className="flex flex-col justify-center gap-1 items-center">
+            <div>
+              <h1 className="text-sm font-bold text-primary uppercase tracking-tighter">
+                CNPJ 59.59.585.110/0001-05
+              </h1>
+            </div>
+            <div className="flex items-center gap-2 w-full">
+              <span className="flex-1 h-px bg-secondary-dark" />
+              <span className="text-secondary-dark text-[10px]">◆</span>
+              <span className="flex-1 h-px bg-secondary-dark" />
+            </div>
+            <h1 className="text-3xl font-bold text-primary uppercase tracking-tighter">
+              Grunwald Em Ferro
+            </h1>
+            <div className="flex items-center gap-2 w-full">
+              <span className="flex-1 h-px bg-secondary-dark" />
+              <span className="text-secondary-dark text-[10px]">◆</span>
+              <span className="flex-1 h-px bg-secondary-dark" />
+            </div>
           </div>
           <div className="space-y-3">
             <LinhaContato
@@ -68,7 +80,7 @@ export function Cabecalho() {
                 <FontAwesomeIcon icon={faPhone} className="rounded-full " />
               }
             >
-              (41) 99222-3797
+              (41) 99222-9737
             </LinhaContato>
             <LinhaContato
               icone={
@@ -78,7 +90,7 @@ export function Cabecalho() {
               Curitiba – PR
             </LinhaContato>
             <LinhaContato icone={<FontAwesomeIcon icon={faInstagram} />}>
-              @grunwaldarteferro
+              @grunwaldartemferro
             </LinhaContato>
           </div>
         </div>
@@ -218,9 +230,6 @@ export function TabelaHead() {
   );
 }
 export function BlocoTotais({
-  subtotal,
-  descontoPorcentagem,
-  setDescontoPorcentagem,
   totalGeral,
   observacao,
   setObservacao,
@@ -240,102 +249,110 @@ export function BlocoTotais({
   setPagamento: (v: string) => void;
   pagamentoSelecionado: boolean;
 }) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const observacaoRef = useRef<HTMLTextAreaElement>(null);
+  const pagamentoRef = useRef<HTMLTextAreaElement>(null);
+
+  const ajustarAltura = (el: HTMLTextAreaElement | null) => {
+    if (!el) return;
+
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  };
 
   useLayoutEffect(() => {
-    const el = textareaRef.current;
-
-    if (el) {
-      el.style.height = "auto";
-      el.style.height = `${el.scrollHeight}px`;
-    }
+    ajustarAltura(observacaoRef.current);
+    ajustarAltura(pagamentoRef.current);
   }, [observacao, pagamento]);
 
   return (
-    <div className="flex flex-col gap-6 w-full min-w-0">
-      {/* Subtotal + Desconto */}
+    <div className="flex flex-col gap-4 w-full min-w-0">
+      {/* =====================================================
+          TOTAL
+      ===================================================== */}
       <div className="flex justify-end w-full">
-        <div className="w-64 max-w-full space-y-2 text-sm shrink-0">
-          <div className="flex justify-between text-gray-600 font-bold">
-            <span>Subtotal:</span>
-
-            <span>{formatarMoeda(subtotal)}</span>
+        <div className="flex items-stretch overflow-hidden border border-primary">
+          {/* TOTAL */}
+          <div className="bg-primary text-secondary font-bold uppercase text-xs sm:text-sm px-4 sm:px-6 py-2 flex items-center tracking-wide">
+            Total
           </div>
 
-          <div className="flex justify-between items-center text-gray-600">
-            <span>Desconto (%):</span>
-
-            <input
-              onKeyDown={focarProximoCampo}
-              type="number"
-              min="0"
-              max="100"
-              value={descontoPorcentagem}
-              disabled={observacao == ""}
-              onChange={(e) => setDescontoPorcentagem(Number(e.target.value))}
-              className="w-16 text-right text-md bg-transparent focus:border-primary outline-none p-0.5"
-            />
+          {/* VALOR */}
+          <div className="flex items-center justify-end px-4 sm:px-6 py-2">
+            <span className="text-lg sm:text-2xl font-bold text-primary whitespace-nowrap">
+              {formatarMoeda(totalGeral)}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Forma de Pagamento + Total */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-6 w-full min-w-0">
-        {/* Forma de Pagamento */}
-        <div className="min-w-0">
-          <p className="text-xs font-bold text-primary uppercase mb-1">
-            {pagamentoSelecionado && "Forma de Pagamento: "}
-          </p>
+      {/* =====================================================
+          OBSERVAÇÃO
+          Só renderiza se estiver selecionada
+      ===================================================== */}
+      {observacaoSelecionada && (
+        <div className="w-full min-w-0">
+          {/* Divisor */}
 
-          <textarea
-            ref={textareaRef}
-            rows={1}
-            value={pagamento}
-            onChange={(e) => {
-              setPagamento(e.target.value);
-              e.target.style.height = "auto";
-              e.target.style.height = `${e.target.scrollHeight}px`;
-            }}
-            disabled={!pagamentoSelecionado}
-            className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block focus:border-primary outline-none p-0.5 resize-none wrap-break-word whitespace-pre-wrap overflow-hidden bg-transparent border-b border-transparent hover:border-gray-300"
-          />
-        </div>
+          <div className="flex items-start gap-3 w-full">
+            {/* Ícone */}
+            <span className="shrink-0 w-9 h-9 rounded-full bg-primary text-secondary flex items-center justify-center">
+              <FileText className="w-5 h-5" />
+            </span>
 
-        {/* Total */}
-        <div className="min-w-0 flex flex-col gap-2">
-          <div className="flex items-stretch overflow-hidden border border-primary w-full min-w-0">
-            <div className="bg-primary text-secondary font-bold uppercase text-xs sm:text-sm px-3 sm:px-6 py-2 flex items-center tracking-wide shrink-0">
-              Total
-            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold text-primary uppercase mb-1">
+                Observação:
+              </p>
 
-            <div className="flex-1 min-w-0 flex items-center justify-end px-3 sm:px-6 py-2">
-              <span className="text-lg sm:text-2xl font-bold text-primary whitespace-nowrap">
-                {formatarMoeda(totalGeral)}
-              </span>
+              <textarea
+                ref={observacaoRef}
+                rows={1}
+                value={observacao}
+                onChange={(e) => {
+                  setObservacao(e.target.value);
+                  ajustarAltura(e.target);
+                }}
+                className=" w-full min-w-0 bg-transparent border-transparent overflow-hidden text-gray-800 leading-relaxed text-sm block outline-none p-0 resize-none wrap-break-word whitespace-pre-wrap hover:border-primary focus:border-primary "
+              />
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Observações */}
-      <div className="w-full min-w-0">
-        <p className="text-xs font-bold text-primary uppercase mb-1">
-          {observacaoSelecionada && "Observações: "}
-        </p>
+      {/* =====================================================
+          FORMA DE PAGAMENTO
+          Só renderiza se estiver selecionada
+      ===================================================== */}
+      {pagamentoSelecionado && (
+        <div className="w-full min-w-0">
+          {/* Divisor */}
 
-        <textarea
-          ref={textareaRef}
-          rows={1}
-          value={observacao}
-          onChange={(e) => {
-            setObservacao(e.target.value);
-            e.target.style.height = "auto";
-            e.target.style.height = `${e.target.scrollHeight}px`;
-          }}
-          disabled={!observacaoSelecionada}
-          className="w-full min-w-0 bg-transparent border-transparent overflow-hidden text-gray-800 leading-relaxed text-sm block outline-none p-0.5 resize-none wrap-break-word whitespace-pre-wrap hover:border-primary focus:border-primary"
-        />
-      </div>
+          <div className="flex items-start gap-3 w-full">
+            {/* Ícone */}
+            <span className="shrink-0 w-9 h-9 rounded-full bg-primary text-secondary flex items-center justify-center">
+              <CreditCard className="w-5 h-5" />
+            </span>
+
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold text-primary uppercase mb-1">
+                Forma de Pagamento:
+              </p>
+
+              <textarea
+                ref={pagamentoRef}
+                rows={1}
+                value={pagamento}
+                onChange={(e) => {
+                  setPagamento(e.target.value);
+                  ajustarAltura(e.target);
+                }}
+                className=" w-full min-w-0 bg-transparent border-transparent overflow-hidden text-gray-800 leading-relaxed text-sm block outline-none p-0 resize-none wrap-break-word whitespace-pre-wrap hover:border-primary focus:border-primary "
+              />
+            </div>
+          </div>
+          {/* Divisor */}
+        </div>
+      )}
     </div>
   );
 }
@@ -344,7 +361,7 @@ export function Rodape() {
   return (
     <div className="border-t border-gray-200 pt-3 text-center mt-auto">
       <p className="text-[10px] text-gray-400 font-medium tracking-wide">
-        Grunwald Arte Ferro • (41) 99222-3797 • @grunwaldarteferro
+        Grunwald Em Art Ferro • (41) 99222-9737 • @grunwaldartemferro
       </p>
     </div>
   );
