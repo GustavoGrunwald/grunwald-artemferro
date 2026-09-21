@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Calendar, Clock, User } from "lucide-react";
+import { Calendar, Clock, CreditCard, FileText, User } from "lucide-react";
 
 interface Item {
   id: string;
@@ -171,7 +171,50 @@ export function BlocoTotais({
   pagamento: string;
 }) {
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-4 w-full min-w-0">
+      {/* Total */}
+      <div className="flex justify-end w-full">
+        <div className="flex items-stretch overflow-hidden border border-primary">
+          <div className="bg-primary text-secondary font-bold uppercase text-xs sm:text-sm px-4 sm:px-6 py-2 flex items-center tracking-wide shrink-0">
+            Total
+          </div>
+
+          <div className="flex items-center justify-end px-4 sm:px-6 py-2 min-w-37.5">
+            <span className="text-lg sm:text-2xl font-bold text-primary whitespace-nowrap">
+              {formatarMoeda(totalGeral)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Observações */}
+      <div className="w-full min-w-0">
+        <p className="text-sm font-bold text-primary uppercase mb-1 flex items-center gap-1">
+          <span className="shrink-0 w-8 h-8 rounded-lg bg-primary text-secondary flex items-center justify-center">
+            <FileText className="w-5 h-5" />
+          </span>
+          Observações:
+        </p>
+
+        <div className="w-full min-w-0 bg-transparent text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
+          {observacao}
+        </div>
+      </div>
+
+      {/* Forma de Pagamento */}
+      <div className="w-full min-w-0">
+        <p className="text-sm font-bold text-primary uppercase mb-1 flex items-center gap-1">
+          <span className="shrink-0 w-8 h-8 rounded-lg bg-primary text-secondary flex items-center justify-center">
+            <CreditCard className="w-5 h-5" />
+          </span>
+          Forma de Pagamento:
+        </p>
+
+        <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
+          {pagamento}
+        </div>
+      </div>
+
       {/* Subtotal + Desconto */}
       <div className="flex justify-end w-full">
         <div className="w-64 max-w-full space-y-2 text-sm shrink-0">
@@ -187,46 +230,6 @@ export function BlocoTotais({
               {descontoPorcentagem}
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Forma de Pagamento + Total */}
-      <div className="flex flex-col gap-4 w-full">
-        {/* Total */}
-        <div className="flex justify-end w-full">
-          <div className="flex items-stretch overflow-hidden border border-primary">
-            <div className="bg-primary text-secondary font-bold uppercase text-xs sm:text-sm px-4 sm:px-6 py-2 flex items-center tracking-wide shrink-0">
-              Total
-            </div>
-
-            <div className="flex items-center justify-end px-4 sm:px-6 py-2 min-w-37.5">
-              <span className="text-lg sm:text-2xl font-bold text-primary whitespace-nowrap">
-                {formatarMoeda(totalGeral)}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Forma de Pagamento */}
-        <div className="w-full min-w-0">
-          <p className="text-xs font-bold text-primary uppercase mb-1">
-            Forma de Pagamento:
-          </p>
-
-          <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
-            {pagamento}
-          </div>
-        </div>
-      </div>
-
-      {/* Observações */}
-      <div className="w-full min-w-0">
-        <p className="text-xs font-bold text-primary uppercase mb-1">
-          Observações:
-        </p>
-
-        <div className="w-full min-w-0 bg-transparent text-gray-800 leading-relaxed text-sm block p-0.5 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
-          {observacao}
         </div>
       </div>
     </div>
