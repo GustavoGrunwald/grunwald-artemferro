@@ -170,9 +170,6 @@ export function BlocoTotais({
 }) {
   return (
     <div className="flex flex-col gap-4 w-full min-w-0">
-      {/* =====================================================
-          TOTAL
-      ===================================================== */}
       <div className="flex justify-end w-full">
         <div className="flex items-stretch overflow-hidden border border-primary">
           {/* TOTAL */}
@@ -189,45 +186,46 @@ export function BlocoTotais({
         </div>
       </div>
 
-      {/* =====================================================
-          OBSERVAÇÃO
-      ===================================================== */}
-      <div className="w-full min-w-0">
-        <div className="flex items-start gap-3 w-full">
-          {/* Ícone */}
-          <span className="shrink-0 w-9 h-9 rounded-full bg-primary text-secondary flex items-center justify-center">
-            <FileText className="w-5 h-5" />
-          </span>
+      {observacao && (
+        <div className="w-full min-w-0">
+          <div className="flex items-start gap-3 w-full">
+            {/* Ícone */}
+            <span className="shrink-0 w-9 h-9 rounded-full bg-primary text-secondary flex items-center justify-center">
+              <FileText className="w-5 h-5" />
+            </span>
 
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-primary uppercase mb-1">
-              Observação:
-            </p>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold text-primary uppercase mb-1">
+                Observação:
+              </p>
 
-            <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
-              {observacao}
+              <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
+                {observacao}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="w-full min-w-0">
-        <div className="flex items-start gap-3 w-full">
-          <span className="shrink-0 w-9 h-9 rounded-full bg-primary text-secondary flex items-center justify-center">
-            <CreditCard className="w-5 h-5" />
-          </span>
+      {pagamento && (
+        <div className="w-full min-w-0">
+          <div className="flex items-start gap-3 w-full">
+            <span className="shrink-0 w-9 h-9 rounded-full bg-primary text-secondary flex items-center justify-center">
+              <CreditCard className="w-5 h-5" />
+            </span>
 
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-primary uppercase mb-1">
-              Forma de Pagamento:
-            </p>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold text-primary uppercase mb-1">
+                Forma de Pagamento:
+              </p>
 
-            <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
-              {pagamento}
+              <div className="w-full min-w-0 text-gray-800 leading-relaxed text-sm block p-0 whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere">
+                {pagamento}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
