@@ -392,7 +392,7 @@ export default function App() {
       className="min-h-screen bg-gray-200 p-4 sm:p-8 flex flex-col items-center"
       onClick={() => setLinhaSelecionada(null)}
     >
-      <h2 className="text-gray-400">Versão: 1</h2>
+      <h2 className="text-gray-400">Versão: 1.1</h2>
       <div
         className="flex items-center justify-between pb-4 print:hidden"
         style={{ width: PAGE_WIDTH * displayScale }}

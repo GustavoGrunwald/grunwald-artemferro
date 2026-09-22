@@ -285,6 +285,7 @@ export default function DocumentoPDF({
                 width: PAGE_WIDTH,
                 height: PAGE_HEIGHT,
                 padding: PAGE_PADDING,
+                overflow: "hidden",
                 transformOrigin: "top left",
               }}
               className="bg-white shadow-2xl flex flex-col font-sans text-gray-800 "
