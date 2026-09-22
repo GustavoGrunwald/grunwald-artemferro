@@ -108,7 +108,7 @@ export const LinhaItem = forwardRef<
       </td>
       <td className="py-3 pr-3 align-center border border-secondary-dark">
         <AutoResizeTextarea
-          placeholder="Descrição do serviço/produto..."
+          placeholder="Descrição..."
           value={item.descricao}
           onChange={(novoTexto) =>
             onChange(item.id, "descricao", novoTexto.target.value)
