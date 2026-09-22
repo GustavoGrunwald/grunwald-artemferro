@@ -568,9 +568,6 @@ export default function App() {
             }}
           >
             <div
-              ref={(el) => {
-                pageRefs.current[idx] = el;
-              }}
               style={{
                 width: PAGE_WIDTH,
                 height: PAGE_HEIGHT,
