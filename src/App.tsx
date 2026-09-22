@@ -341,21 +341,31 @@ export default function App() {
         files: [arquivo],
       };
 
-      if (navigator.canShare && navigator.canShare(shareData)) {
-        try {
-          await navigator.share(shareData);
+      // ===================== COMPARTILHAR vs BAIXAR =====================
+      // Por padrão, se o navegador suportar a Web Share API com arquivos
+      // (a maioria dos celulares), abrimos o menu nativo de compartilhamento/
+      // "salvar como" em vez de forçar o download direto.
+      //
+      // Para DESATIVAR o compartilhamento e sempre forçar o download do PDF,
+      // comente (ou apague) todo o bloco "if (navigator.canShare..." abaixo,
+      // do início até o seu "}" de fechamento. O código de download logo em
+      // seguida (criação do link com URL.createObjectURL) continuará
+      // funcionando normalmente sozinho.
+      // if (navigator.canShare && navigator.canShare(shareData)) {
+      //   try {
+      //     await navigator.share(shareData);
 
-          setExportando(false);
-          return;
-        } catch (erro) {
-          if (erro instanceof Error && erro.name === "AbortError") {
-            setExportando(false);
-            return;
-          }
+      //     setExportando(false);
+      //     return;
+      //   } catch (erro) {
+      //     if (erro instanceof Error && erro.name === "AbortError") {
+      //       setExportando(false);
+      //       return;
+      //     }
 
-          throw erro;
-        }
-      }
+      //     throw erro;
+      //   }
+      // }
 
       const url = URL.createObjectURL(blob);
 
