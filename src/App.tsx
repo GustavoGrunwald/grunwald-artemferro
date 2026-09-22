@@ -351,21 +351,21 @@ export default function App() {
       // do início até o seu "}" de fechamento. O código de download logo em
       // seguida (criação do link com URL.createObjectURL) continuará
       // funcionando normalmente sozinho.
-      // if (navigator.canShare && navigator.canShare(shareData)) {
-      //   try {
-      //     await navigator.share(shareData);
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        try {
+          await navigator.share(shareData);
 
-      //     setExportando(false);
-      //     return;
-      //   } catch (erro) {
-      //     if (erro instanceof Error && erro.name === "AbortError") {
-      //       setExportando(false);
-      //       return;
-      //     }
+          setExportando(false);
+          return;
+        } catch (erro) {
+          if (erro instanceof Error && erro.name === "AbortError") {
+            setExportando(false);
+            return;
+          }
 
-      //     throw erro;
-      //   }
-      // }
+          throw erro;
+        }
+      }
 
       const url = URL.createObjectURL(blob);
 
